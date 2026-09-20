@@ -5,11 +5,14 @@ from player import Player
 
 
 def main():
+    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
     pygame.init()
-
     clock = pygame.time.Clock()
     dt = 0.0
-    print(f"Starting Asteroids with pygame version: {pygame.version.ver}")
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -22,8 +25,9 @@ def main():
                 return
         screen.fill("black")
         dt = clock.tick(60) / 1000
-        player.update(dt)
-        player.draw(screen)
+        updatable.update(dt)
+        for sprite in drawable:
+            sprite.draw(screen)
         pygame.display.flip()
 
 
